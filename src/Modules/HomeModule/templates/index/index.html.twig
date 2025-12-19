@@ -46,7 +46,7 @@
 
     <h2>Nouveautés</h2>
 
-    <div class="fulgur-load_more" data-url="{{ route_url('listapi-recent-video') }}" data-max="36">
+    <div class="fulgur-load_more" data-url="{{ route_url('listapi-recent-video') }}" data-max="100">
         <div class="row">
             {% for video in recent_videos %}
                 {% include '@HomeModule/listapi/video.html.twig' %}

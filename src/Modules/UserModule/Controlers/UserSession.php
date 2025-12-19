@@ -82,7 +82,7 @@ class UserSession extends Controler {
 
                 // Update the user's profile
                 $user->promo = $response['payload']['promo'];
-                $user->alumni = $response['payload']['isAlum'];
+                // $user->alumni = $response['payload']['isAlum'];
                 try {
                     $userManager = $user->getManager();
                     $userManager->update($user, ['logged_on' => 'NOW()']);
