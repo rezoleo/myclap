@@ -11,7 +11,7 @@ class VideoReactionController extends Controller
 {
     public function toggle(Request $request, string $token)
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             return response()->json(['error' => 'Authentication required'], 401);
         }
 

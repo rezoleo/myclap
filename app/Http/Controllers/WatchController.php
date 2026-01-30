@@ -20,13 +20,13 @@ class WatchController extends Controller
         $access = ContentAccess::from($video->access);
         $user = $request->user();
 
-        if ($access === ContentAccess::CENTRALIENS && !$user) {
+        if ($access === ContentAccess::CENTRALIENS && ! $user) {
             return Inertia::render('Watch/LoginRequired', [
                 'video' => $video,
             ]);
         }
 
-        if ($access === ContentAccess::PRIVATE && (!$user || !$user->hasPermission('myclap.private'))) {
+        if ($access === ContentAccess::PRIVATE && (! $user || ! $user->hasPermission('myclap.private'))) {
             return Inertia::render('Watch/PrivateVideo', [
                 'video' => $video,
             ]);
@@ -54,13 +54,13 @@ class WatchController extends Controller
         $access = ContentAccess::from($video->access);
         $user = $request->user();
 
-        if ($access === ContentAccess::CENTRALIENS && !$user) {
+        if ($access === ContentAccess::CENTRALIENS && ! $user) {
             return Inertia::render('Watch/LoginRequired', [
                 'video' => $video,
             ]);
         }
 
-        if ($access === ContentAccess::PRIVATE && (!$user || !$user->hasPermission('myclap.private'))) {
+        if ($access === ContentAccess::PRIVATE && (! $user || ! $user->hasPermission('myclap.private'))) {
             return Inertia::render('Watch/PrivateVideo', [
                 'video' => $video,
             ]);
@@ -68,12 +68,12 @@ class WatchController extends Controller
 
         // Check if video is in playlist
         $playlistTokens = $playlist->getVideoTokens();
-        if (!in_array($token, $playlistTokens)) {
+        if (! in_array($token, $playlistTokens)) {
             abort(404);
         }
 
         $videos = $playlist->getVideosCollection($user);
-        $currentIndex = $videos->search(fn($v) => $v->token === $token);
+        $currentIndex = $videos->search(fn ($v) => $v->token === $token);
 
         $userDidLike = false;
         if ($user) {

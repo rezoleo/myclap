@@ -37,14 +37,14 @@ class CategoryController extends Controller
         $acc = 1;
         while (Category::where('slug', $slug)->exists()) {
             $acc++;
-            $slug = $slugBase . '-' . $acc;
+            $slug = $slugBase.'-'.$acc;
         }
 
         Category::create([
             'slug' => $slug,
             'label' => $validated['label'],
             'description' => $validated['description'] ?: null,
-            'created_by' => $request->user()->username
+            'created_by' => $request->user()->username,
         ]);
 
         return redirect()->route('manager.categories.index')

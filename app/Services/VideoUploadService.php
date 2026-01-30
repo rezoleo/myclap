@@ -11,18 +11,17 @@ use Illuminate\Support\Str;
 class VideoUploadService
 {
     private const MIN_CHUNK_SIZE = 0.1 * 1024 * 1024; // 0.1 MB
+
     private const MAX_CHUNK_SIZE = 10 * 1024 * 1024;  // 10 MB
 
     public function __construct(
         private readonly VideoService $videoService
-    )
-    {
-    }
+    ) {}
 
     public function initUpload(Video $video, string $fileName, int $fileSize, string $username): array
     {
         if ($video->upload_status === UploadStatus::UPLOAD_END->value) {
-            throw new \Exception("Vidéo déjà uploadée");
+            throw new \Exception('Vidéo déjà uploadée');
         }
 
         $upload = VideoUpload::where('video_token', $video->token)->first();
@@ -31,7 +30,7 @@ class VideoUploadService
         if ($upload) {
             // Resume upload
             if ($upload->file_size != $fileSize) {
-                throw new \Exception("Le fichier doit être identique à celui que vous aviez commencé à envoyer.");
+                throw new \Exception('Le fichier doit être identique à celui que vous aviez commencé à envoyer.');
             }
 
             if (Storage::disk('local')->exists($upload->file_identifier)) {
@@ -43,7 +42,7 @@ class VideoUploadService
             }
         } else {
             // Create new upload
-            $fileIdentifier = 'video_upload/' . Str::random(40);
+            $fileIdentifier = 'video_upload/'.Str::random(40);
             Storage::disk('local')->put($fileIdentifier, '');
 
             $upload = VideoUpload::create([
@@ -51,7 +50,7 @@ class VideoUploadService
                 'file_name' => $fileName,
                 'file_size' => $fileSize,
                 'file_identifier' => $fileIdentifier,
-                'created_by' => $username
+                'created_by' => $username,
             ]);
 
             $video->upload_status = UploadStatus::UPLOAD_INIT->value;
@@ -60,7 +59,7 @@ class VideoUploadService
 
         return [
             'startIndex' => $startIndex,
-            'chunkSize' => (int)self::MIN_CHUNK_SIZE,
+            'chunkSize' => (int) self::MIN_CHUNK_SIZE,
         ];
     }
 
@@ -91,8 +90,8 @@ class VideoUploadService
 
         // Calculate adaptive chunk size (target 3 seconds per chunk)
         $adaptiveChunkSize = min(
-            (int)self::MAX_CHUNK_SIZE,
-            max((int)self::MIN_CHUNK_SIZE, $chunkSize)
+            (int) self::MAX_CHUNK_SIZE,
+            max((int) self::MIN_CHUNK_SIZE, $chunkSize)
         );
 
         return [
@@ -110,7 +109,7 @@ class VideoUploadService
 
         // Generate random 10-character identifier for video file
         $videoIdentifier = Str::random(10);
-        $finalIdentifier = 'videos/' . $videoIdentifier . '.mp4';
+        $finalIdentifier = 'videos/'.$videoIdentifier.'.mp4';
 
         // Check file size matches
         $path = Storage::disk('local')->path($tempPath);
@@ -120,7 +119,7 @@ class VideoUploadService
 
         // Ensure videos directory exists
         $videosDir = Storage::disk('local')->path('videos');
-        if (!is_dir($videosDir)) {
+        if (! is_dir($videosDir)) {
             mkdir($videosDir, 0755, true);
         }
 
@@ -155,7 +154,7 @@ class VideoUploadService
     {
         $upload = VideoUpload::where('video_token', $video->token)->first();
 
-        if (!$upload) {
+        if (! $upload) {
             return null;
         }
 

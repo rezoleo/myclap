@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserPermission extends Model
 {
     protected $table = 'user_permission';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

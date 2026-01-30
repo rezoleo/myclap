@@ -11,9 +11,7 @@ class VideoStatController extends Controller
 {
     public function __construct(
         private VideoStatService $statService
-    )
-    {
-    }
+    ) {}
 
     public function init(Request $request, string $token)
     {
@@ -22,6 +20,7 @@ class VideoStatController extends Controller
         $this->authorize('view', $video);
 
         $playbackSid = $this->statService->initView($video, $request);
+
         return response()->json(['playback_sid' => $playbackSid]);
     }
 
@@ -33,11 +32,12 @@ class VideoStatController extends Controller
 
         $playbackSid = $request->input('playback_sid');
 
-        if (!$playbackSid) {
+        if (! $playbackSid) {
             return response()->json(['message' => 'missing playback_sid'], 400);
         }
 
         $this->statService->updateView($video, $playbackSid, $request);
+
         return response()->noContent();
     }
 }

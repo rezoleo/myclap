@@ -43,15 +43,15 @@ class HandleInertiaRequests extends Middleware
                     'username' => $request->user()->username,
                     'first_name' => $request->user()->first_name,
                     'last_name' => $request->user()->last_name,
-                    'full_name' => $request->user()->first_name . ' ' . $request->user()->last_name,
+                    'full_name' => $request->user()->first_name.' '.$request->user()->last_name,
                     'is_admin' => $request->user()->isAdmin(),
                 ] : null,
                 'permissions' => $request->user()?->permissions->pluck('identifier')->toArray() ?? [],
             ],
             'flash' => [
-                'success' => fn() => $request->session()->get('success'),
-                'error' => fn() => $request->session()->get('error'),
-                'info' => fn() => $request->session()->get('info'),
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'info' => fn () => $request->session()->get('info'),
             ],
         ];
     }

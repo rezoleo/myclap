@@ -11,9 +11,7 @@ class VideoUploadApiController extends Controller
 {
     public function __construct(
         private VideoUploadService $uploadService
-    )
-    {
-    }
+    ) {}
 
     public function init(Request $request, string $token)
     {

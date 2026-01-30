@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Category extends Model
 {
     protected $table = 'category';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

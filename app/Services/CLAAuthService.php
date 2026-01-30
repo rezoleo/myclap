@@ -11,6 +11,7 @@ class CLAAuthService
     {
         $host = config('services.cla.host');
         $identifier = config('services.cla.identifier');
+
         return "{$host}/authentification/{$identifier}";
     }
 
@@ -18,16 +19,17 @@ class CLAAuthService
     {
         $host = config('services.cla.host');
         $identifier = config('services.cla.identifier');
-        $url = "{$host}/authentification/{$identifier}/" . urlencode($ticket);
+        $url = "{$host}/authentification/{$identifier}/".urlencode($ticket);
 
         try {
             $response = Http::get($url);
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 return null;
             }
 
             $data = $response->json();
+
             return $data['success'] ? $data['payload'] : null;
         } catch (\Exception $e) {
             return null;
@@ -53,7 +55,7 @@ class CLAAuthService
                 'school_email' => $claData['emailSchool'],
                 'promo' => $claData['promo'],
                 'alumni' => 0,
-                'logged_on' => now()
+                'logged_on' => now(),
             ]);
         }
 

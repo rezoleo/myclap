@@ -156,7 +156,7 @@ class StatController extends Controller
             'video' => $video,
             'viewsData' => $viewsData,
             'uniqueViewers' => $uniqueViewers,
-            'averageWatchTime' => (int)$averageWatchTime,
+            'averageWatchTime' => (int) $averageWatchTime,
             'viewSources' => $viewSources,
             'deviceTypes' => $deviceTypes,
             'browsers' => $browsers,

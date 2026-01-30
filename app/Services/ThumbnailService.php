@@ -29,7 +29,7 @@ class ThumbnailService
 
     public function __construct()
     {
-        $this->manager = new ImageManager(new Driver());
+        $this->manager = new ImageManager(new Driver);
     }
 
     public function generateIdentifier(): string
@@ -40,8 +40,9 @@ class ThumbnailService
     /**
      * Store a thumbnail and generate all size variants
      *
-     * @param UploadedFile $file The uploaded image file
+     * @param  UploadedFile  $file  The uploaded image file
      * @return string The thumbnail identifier
+     *
      * @throws Exception If the image type is invalid
      */
     public function store(UploadedFile $file): string
@@ -77,17 +78,17 @@ class ThumbnailService
         if ($originalWidth / $originalHeight > $width / $height) {
             // Wider than target, fit by width
             $newWidth = $width;
-            $newHeight = (int)ceil(($originalHeight / $originalWidth) * $width);
+            $newHeight = (int) ceil(($originalHeight / $originalWidth) * $width);
         } else {
             // Taller than target, fit by height
             $newHeight = $height;
-            $newWidth = (int)ceil(($originalWidth / $originalHeight) * $height);
+            $newWidth = (int) ceil(($originalWidth / $originalHeight) * $height);
         }
 
         $image->scale($newWidth, $newHeight);
 
         $filename = $this->getVariantFilename($identifier, $height);
-        $outputPath = Storage::disk('local')->path(self::THUMBNAILS_DIR . '/' . $filename);
+        $outputPath = Storage::disk('local')->path(self::THUMBNAILS_DIR.'/'.$filename);
         $image->toJpeg(quality: 85)->save($outputPath);
     }
 
@@ -98,7 +99,7 @@ class ThumbnailService
 
     public function getVariantPath(string $identifier, int $height): string
     {
-        return self::THUMBNAILS_DIR . '/' . $this->getVariantFilename($identifier, $height);
+        return self::THUMBNAILS_DIR.'/'.$this->getVariantFilename($identifier, $height);
     }
 
     public function delete(string $identifier): void
@@ -114,7 +115,7 @@ class ThumbnailService
     private function ensureDirectoryExists(): void
     {
         $dir = Storage::disk('local')->path(self::THUMBNAILS_DIR);
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             mkdir($dir, 0755, true);
         }
     }

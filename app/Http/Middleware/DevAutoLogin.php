@@ -18,7 +18,7 @@ class DevAutoLogin
         // Only in local environment with DEV_AUTO_LOGIN_USERNAME set
         if (app()->environment('local') && config('app.dev_auto_login_username')) {
             // If not already authenticated
-            if (!Auth::check()) {
+            if (! Auth::check()) {
                 $username = config('app.dev_auto_login_username');
                 $user = User::where('username', $username)->first();
 

@@ -19,15 +19,13 @@ class VideoController extends Controller
 {
     public function __construct(
         private readonly VideoService $videoService
-    )
-    {
-    }
+    ) {}
 
     public function index(Request $request)
     {
         $user = $request->user();
 
-        if (!$user->hasPermissionGroup('manager.video')) {
+        if (! $user->hasPermissionGroup('manager.video')) {
             abort(403);
         }
 
@@ -42,7 +40,7 @@ class VideoController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->hasPermission('manager.video.upload')) {
+        if (! $user->hasPermission('manager.video.upload')) {
             abort(403);
         }
 
@@ -58,7 +56,7 @@ class VideoController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->hasPermission('manager.video.upload')) {
+        if (! $user->hasPermission('manager.video.upload')) {
             abort(403);
         }
 
@@ -94,7 +92,7 @@ class VideoController extends Controller
             'access' => $validated['access'],
             'thumbnail_identifier' => $thumbnailIdentifier,
             'uploaded_by' => $user->username,
-            'created_on' => $validated['created_on']
+            'created_on' => $validated['created_on'],
         ]);
 
         // Sync categories

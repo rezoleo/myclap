@@ -12,7 +12,7 @@ class VideoService
     {
         $fullPath = Storage::disk('local')->path($filePath);
 
-        if (!file_exists($fullPath)) {
+        if (! file_exists($fullPath)) {
             return null;
         }
 
@@ -25,17 +25,18 @@ class VideoService
 
         if ($output === null || trim($output) === '') {
             Log::warning("Failed to get video duration for: {$filePath}");
+
             return null;
         }
 
-        $duration = (int)round((float)trim($output));
+        $duration = (int) round((float) trim($output));
 
         return $duration > 0 ? $duration : null;
     }
 
     public function updateDuration(Video $video): ?int
     {
-        if (!$video->file_identifier) {
+        if (! $video->file_identifier) {
             return null;
         }
 
@@ -51,7 +52,7 @@ class VideoService
 
     public function checkAndUpdateDuration(Video $video): ?int
     {
-        if (!$video->file_identifier) {
+        if (! $video->file_identifier) {
             return null;
         }
 

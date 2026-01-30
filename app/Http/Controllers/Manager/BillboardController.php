@@ -11,6 +11,7 @@ use Inertia\Inertia;
 class BillboardController extends Controller
 {
     private const STORAGE_FILE = 'billboard.json';
+
     private const MAX_BILLBOARDS = 5;
 
     public function index(Request $request)
@@ -85,7 +86,7 @@ class BillboardController extends Controller
         $billboards = $this->getBillboards();
         $billboard = collect($billboards)->firstWhere('identifier', $identifier);
 
-        if (!$billboard) {
+        if (! $billboard) {
             abort(404);
         }
 
@@ -128,7 +129,7 @@ class BillboardController extends Controller
             }
         }
 
-        if (!$found) {
+        if (! $found) {
             abort(404);
         }
 
@@ -152,11 +153,12 @@ class BillboardController extends Controller
 
     private function getBillboards(): array
     {
-        if (!Storage::disk('local')->exists(self::STORAGE_FILE)) {
+        if (! Storage::disk('local')->exists(self::STORAGE_FILE)) {
             return [];
         }
 
         $content = Storage::disk('local')->get(self::STORAGE_FILE);
+
         return json_decode($content, true) ?? [];
     }
 

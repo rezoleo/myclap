@@ -10,11 +10,11 @@ class EnsureUserHasPermissionGroup
 {
     public function handle(Request $request, Closure $next, string $permission_group): Response
     {
-        if (!$request->user()) {
+        if (! $request->user()) {
             return redirect()->route('login');
         }
 
-        if (!$request->user()->hasPermissionGroup($permission_group)) {
+        if (! $request->user()->hasPermissionGroup($permission_group)) {
             abort(403, "Groupe de permission requis : {$permission_group}");
         }
 

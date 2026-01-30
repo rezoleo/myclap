@@ -59,7 +59,7 @@ class PermissionController extends Controller
         UserPermission::firstOrCreate([
             'username' => $validated['username'],
             'identifier' => $validated['identifier'],
-        ], ['created_by' => $user->username,]);
+        ], ['created_by' => $user->username]);
 
         return back()->with('success', 'Permission accordée');
     }

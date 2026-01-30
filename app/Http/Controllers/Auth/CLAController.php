@@ -11,9 +11,7 @@ class CLAController extends Controller
 {
     public function __construct(
         private CLAAuthService $claAuth
-    )
-    {
-    }
+    ) {}
 
     public function login()
     {
@@ -32,13 +30,13 @@ class CLAController extends Controller
 
         $ticket = $request->get('ticket');
 
-        if (!$ticket) {
+        if (! $ticket) {
             abort(400, 'Ticket manquant');
         }
 
         $claData = $this->claAuth->validateTicket($ticket);
 
-        if (!$claData) {
+        if (! $claData) {
             abort(500, 'Authentification CLA échouée');
         }
 

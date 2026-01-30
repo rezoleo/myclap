@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class VideoReaction extends Model
 {
     protected $table = 'video_reaction';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

@@ -45,7 +45,7 @@ class VideoStatService
             'view_source' => $request->input('view_source'),
             'device_type' => $request->input('device_type'),
             'browser' => $request->input('browser'),
-            'os' => $request->input('os')
+            'os' => $request->input('os'),
         ]);
 
         return $playbackSid;
@@ -60,16 +60,16 @@ class VideoStatService
             ->where('playback_sid', $playbackSid)
             ->first();
 
-        if (!$view) {
+        if (! $view) {
             return;
         }
 
         $watch_time = $request->input('watch_time');
         if ($watch_time !== null) {
-            $view->watch_time = (int)$watch_time;
+            $view->watch_time = (int) $watch_time;
         }
 
-        if (!$view->count_as_view && $view->created_on->diffInSeconds(now()) >= 25) {
+        if (! $view->count_as_view && $view->created_on->diffInSeconds(now()) >= 25) {
             $view->count_as_view = true;
             $video->increment('views');
         }

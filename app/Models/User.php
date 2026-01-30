@@ -12,7 +12,9 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'clap_user';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

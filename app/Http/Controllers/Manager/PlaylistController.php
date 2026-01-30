@@ -50,13 +50,13 @@ class PlaylistController extends Controller
         $acc = 1;
         while (Playlist::where('slug', $slug)->exists()) {
             $acc++;
-            $slug = $slugBase . '-' . $acc;
+            $slug = $slugBase.'-'.$acc;
         }
 
         // Validate video tokens
         $videoTokens = $validated['videos'] ?? [];
         $validTokens = Video::whereIn('token', $videoTokens)->pluck('token')->toArray();
-        $orderedTokens = array_values(array_filter($videoTokens, fn($t) => in_array($t, $validTokens)));
+        $orderedTokens = array_values(array_filter($videoTokens, fn ($t) => in_array($t, $validTokens)));
 
         $playlist = Playlist::create([
             'slug' => $slug,
@@ -65,7 +65,7 @@ class PlaylistController extends Controller
             'type' => $validated['type'],
             'access' => $validated['access'],
             'pinned' => $validated['pinned'] ?? false,
-            'modified_by' => $request->user()->username
+            'modified_by' => $request->user()->username,
         ]);
 
         $playlist->syncVideosWithOrder($orderedTokens);
@@ -107,7 +107,7 @@ class PlaylistController extends Controller
         $videoTokens = $validated['videos'] ?? [];
         $validTokens = Video::whereIn('token', $videoTokens)->pluck('token')->toArray();
         // Maintain order from request
-        $orderedTokens = array_values(array_filter($videoTokens, fn($t) => in_array($t, $validTokens)));
+        $orderedTokens = array_values(array_filter($videoTokens, fn ($t) => in_array($t, $validTokens)));
 
         $playlist->update([
             'name' => $validated['name'],
@@ -150,7 +150,7 @@ class PlaylistController extends Controller
                 $q->where('name', 'ILIKE', "%{$query}%")
                     ->orWhere('token', 'ILIKE', "%{$query}%");
             })
-            ->when(!empty($exclude), function ($q) use ($exclude) {
+            ->when(! empty($exclude), function ($q) use ($exclude) {
                 $q->whereNotIn('token', $exclude);
             })
             ->orderBy('created_on', 'desc')
@@ -159,7 +159,7 @@ class PlaylistController extends Controller
 
         return response()->json([
             'videos' => $videos,
-            'total' => $videos->count()
+            'total' => $videos->count(),
         ]);
     }
 }

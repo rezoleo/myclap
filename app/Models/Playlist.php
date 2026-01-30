@@ -12,7 +12,9 @@ use Illuminate\Support\Collection;
 class Playlist extends Model
 {
     protected $table = 'playlist';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -73,7 +75,8 @@ class Playlist extends Model
 
     /**
      * Sync videos with their positions.
-     * @param array $tokens Array of video tokens in order
+     *
+     * @param  array  $tokens  Array of video tokens in order
      */
     public function syncVideosWithOrder(array $tokens): void
     {
@@ -124,6 +127,7 @@ class Playlist extends Model
     public function getFirstVideoThumbnailAttribute(): ?string
     {
         $firstVideo = $this->videos()->published()->first();
+
         return $firstVideo?->thumbnail_urls['480'] ?? $firstVideo?->thumbnail_url;
     }
 }

@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class VideoView extends Model
 {
     protected $table = 'video_view';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

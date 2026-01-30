@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Video extends Model
 {
     protected $table = 'video';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -101,6 +103,7 @@ class Video extends Model
                 ContentAccess::PUBLIC->value,
             ]);
         }
+
         return $query->where('access', ContentAccess::PUBLIC->value);
     }
 

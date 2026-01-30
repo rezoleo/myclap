@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class VideoUpload extends Model
 {
     protected $table = 'video_upload';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
     protected $fillable = [

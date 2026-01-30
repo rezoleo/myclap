@@ -56,18 +56,18 @@ class HomeController extends Controller
         $user = $request->user();
 
         // Efficient query to get playlists sorted by pinned, then by name
-        $getPlaylistsQuery = fn($type) => Playlist::where('type', $type)
+        $getPlaylistsQuery = fn ($type) => Playlist::where('type', $type)
             ->orderByDesc('pinned')
             ->orderBy('name')
             ->get();
 
         $broadcastPlaylists = $getPlaylistsQuery(1)
-            ->filter(fn($p) => $this->canViewPlaylist($p, $user))
-            ->map(fn($p) => $this->enrichPlaylist($p, $user));
+            ->filter(fn ($p) => $this->canViewPlaylist($p, $user))
+            ->map(fn ($p) => $this->enrichPlaylist($p, $user));
 
         $classicPlaylists = $getPlaylistsQuery(0)
-            ->filter(fn($p) => $this->canViewPlaylist($p, $user))
-            ->map(fn($p) => $this->enrichPlaylist($p, $user));
+            ->filter(fn ($p) => $this->canViewPlaylist($p, $user))
+            ->map(fn ($p) => $this->enrichPlaylist($p, $user));
 
         return Inertia::render('Home/Playlists', [
             'broadcastPlaylists' => $broadcastPlaylists->values(),
@@ -80,7 +80,7 @@ class HomeController extends Controller
         $playlist = Playlist::where('slug', $slug)->firstOrFail();
         $user = $request->user();
 
-        if (!$this->canViewPlaylist($playlist, $user)) {
+        if (! $this->canViewPlaylist($playlist, $user)) {
             abort(403);
         }
 
@@ -137,7 +137,7 @@ class HomeController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return Inertia::render('Home/Favorites', [
                 'videos' => [],
                 'needsAuth' => true,
@@ -176,6 +176,7 @@ class HomeController extends Controller
     {
         $videos = $playlist->getVideosCollection($user);
         $totalDuration = $videos->sum('duration');
+
         return array_merge($playlist->toArray(), [
             'video_count' => $videos->count(),
             'total_duration' => $totalDuration,
